@@ -33,6 +33,7 @@ app.post '/regist_apn', (req, res) ->
       if err
         return console.log err.toString()
       if !account
+        Account = mongoose.model 'Account'
         account = new Account()
         account.phone = phone
         account.token = token
