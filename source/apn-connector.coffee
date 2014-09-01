@@ -3,6 +3,7 @@ https = require 'https'
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 fs = require 'fs'
+bodyParser = require 'body-parser'
 
 users = mongoose.connect 'mongodb://localhost/users'
 
@@ -19,9 +20,30 @@ options =
   cert: fs.readFileSync '../keys/certificate.pem'
 
 app = express()
+app.use bodyParser()
 
 app.post '/regist_apn', (req, res) ->
   console.log "Success"
+  phone = req.body.phone
+  token = req.body.token
+  Account = mongoose.model 'Account'
+  Account.findOne
+    'phone': phone
+    , (err,account) ->
+      if err
+        return console.log err.toString()
+      if !account
+        account = new Account()
+        account.phone = phone
+        account.token = token
+        account.save (err) ->
+          if err
+            return console.log err.toString()
+      else
+        account.update "token":token
+        , (err) ->
+          if err
+            return console.log err.toString()
 
 # Bind https to port:8000
 https.createServer(options, app)
