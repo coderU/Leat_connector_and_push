@@ -23,7 +23,7 @@ app = express()
 app.use bodyParser()
 
 app.post '/regist_apn', (req, res) ->
-  console.log "Connected-Regist"
+  #console.log "Connected-Regist"
   phone = req.body.phone
   token = req.body.token
   Account = mongoose.model 'Account'
@@ -34,7 +34,6 @@ app.post '/regist_apn', (req, res) ->
         return console.log err.toString()
       if !account
         console.log "No such account exist"
-        Account = mongoose.model 'Account'
         account = new Account()
         account.phone = phone
         account.token = token
@@ -46,7 +45,13 @@ app.post '/regist_apn', (req, res) ->
         , (err) ->
           if err
             return console.log err.toString()
-          console.log "Account token update Success"
+          #console.log "Account token update Success"
+
+app.post '/send_apn', (req, res) ->
+
+
+
+
 # Bind https to port:8000
 https.createServer(options, app)
   .listen(8000)
