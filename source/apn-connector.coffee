@@ -4,7 +4,12 @@ mongoose = require 'mongoose'
 Schema = mongoose.Schema
 fs = require 'fs'
 bodyParser = require 'body-parser'
-
+join = require('path').join
+pfx = join(__dirname, '../_certs/pfx.p12')
+apnagent = require 'apnagent'
+agent = module.exports = new apnagent.Agent()
+agent.set 'pfx file', pfx
+agent.enable 'sandbox'
 users = mongoose.connect 'mongodb://localhost/users'
 
 Accounts = new Schema
@@ -56,7 +61,26 @@ app.post '/send_apn', (req, res) ->
     , (err,account) ->
       if err
         return console.log err.toString()
+      if !account
+        return
 
+
+agent.connect (err) ->
+  # gracefully handle auth problems
+  if(err &amp; err.name == 'GatewayAuthorizationError')
+    console.log 'Authentication Error: %s', err.message
+    process.exit(1);
+
+
+  # handle any other err (not likely)
+  else if err
+    throw err
+
+
+  # it worked!
+  env = if agent.enabled('sandbox') then 'sandbox' else 'production'
+
+  console.log 'apnagent [%s] gateway connected', env
 
 
 # Bind https to port:8000
