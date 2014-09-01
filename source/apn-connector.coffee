@@ -22,3 +22,9 @@ app = express()
 
 app.post '/regist_apn', (req, res) ->
   console.log "Success"
+
+# Bind https to port:8000
+https.createServer options, app
+  .listen(8000)
+
+console.log 'Listening Https at 8000'
