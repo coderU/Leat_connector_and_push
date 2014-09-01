@@ -67,14 +67,9 @@ app.post '/send_apn', (req, res) ->
 
 agent.connect (err) ->
   # gracefully handle auth problems
-  if(err &amp; err.name == 'GatewayAuthorizationError')
-    console.log 'Authentication Error: %s', err.message
-    process.exit(1);
-
-
-  # handle any other err (not likely)
-  else if err
-    throw err
+  if err
+    console.log err.toString()
+    return
 
 
   # it worked!
