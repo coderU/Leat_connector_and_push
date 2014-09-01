@@ -2,6 +2,7 @@ express = require 'express'
 https = require 'https'
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
+fs = require 'fs'
 
 users = mongoose.connect 'mongodb://localhost/users'
 
