@@ -22,9 +22,7 @@
 
   agent = module.exports = new apnagent.Agent();
 
-  agent.set('pfx file', pfx);
-
-  agent.enable('sandbox');
+  agent.set('pfx file', pfx).set('passphrase', '666666').enable('sandbox');
 
   users = mongoose.connect('mongodb://localhost/users');
 
@@ -85,22 +83,11 @@
   });
 
   app.post('/send_apn', function(req, res) {
-    var Account, buddies, message, source;
+    var buddies, message, source;
     buddies = req.body.buddies;
     source = req.body.source;
     message = req.body.message;
-    console.log(source + " send to " + buddies + ": " + message);
-    Account = mongoose.model('Account');
-    return Account.findOne({
-      'phone': phone
-    }, function(err, account) {
-      if (err) {
-        return console.log(err.toString());
-      }
-      if (!account) {
-
-      }
-    });
+    return console.log(source + " send to " + buddies + ": " + message);
   });
 
   agent.connect(function(err) {

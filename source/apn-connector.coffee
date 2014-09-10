@@ -60,14 +60,14 @@ app.post '/send_apn', (req, res) ->
   message = req.body.message
 
   console.log source+" send to "+buddies+": "+message
-  Account = mongoose.model 'Account'
-  Account.findOne
-    'phone': phone
-    , (err,account) ->
-      if err
-        return console.log err.toString()
-      if !account
-        return
+  # Account = mongoose.model 'Account'
+  # Account.findOne
+  #   'phone': phone
+  #   , (err,account) ->
+  #     if err
+  #       return console.log err.toString()
+  #     if !account
+  #       return
 
 
 agent.connect (err) ->
