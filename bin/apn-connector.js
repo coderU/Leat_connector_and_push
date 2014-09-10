@@ -85,9 +85,11 @@
   });
 
   app.post('/send_apn', function(req, res) {
-    var Account, phone, token;
-    phone = req.body.phone;
-    token = req.body.token;
+    var Account, buddies, message, source;
+    buddies = req.body.buddies;
+    source = req.body.source;
+    message = req.body.message;
+    console.log(source + " send to " + buddies + ": " + message);
     Account = mongoose.model('Account');
     return Account.findOne({
       'phone': phone
@@ -103,11 +105,9 @@
 
   agent.connect(function(err) {
     var env;
-    if ((err & amp, err.name === 'GatewayAuthorizationError')) {
-      console.log('Authentication Error: %s', err.message);
-      process.exit(1);
-    } else if (err) {
-      throw err;
+    if (err) {
+      console.log(err.toString());
+      return;
     }
     env = agent.enabled('sandbox') ? 'sandbox' : 'production';
     return console.log('apnagent [%s] gateway connected', env);

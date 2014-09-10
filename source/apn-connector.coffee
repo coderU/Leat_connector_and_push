@@ -53,8 +53,11 @@ app.post '/regist_apn', (req, res) ->
           #console.log "Account token update Success"
 
 app.post '/send_apn', (req, res) ->
-  phone = req.body.phone
-  token = req.body.token
+  buddies = req.body.buddies
+  source = req.body.source
+  message = req.body.message
+
+  console.log source+" send to "+buddies+": "+message
   Account = mongoose.model 'Account'
   Account.findOne
     'phone': phone
