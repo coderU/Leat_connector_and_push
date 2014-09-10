@@ -10,7 +10,7 @@ apnagent = require 'apnagent'
 agent = module.exports = new apnagent.Agent()
 agent
   .set('pfx file', pfx)
-  .set('passphase','6666666')
+  .set('passphase',6666666)
   .enable 'sandbox'
 users = mongoose.connect 'mongodb://localhost/users'
 
