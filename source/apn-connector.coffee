@@ -8,7 +8,7 @@ join = require('path').join
 pfx = join(__dirname, '../_certs/pfx.p12')
 apnagent = require 'apnagent'
 agent = module.exports = new apnagent.Agent()
-agent.set 'pfx file', pfx
+agent.set ('pfx file', pfx).set('passphase','6666666')
 agent.enable 'sandbox'
 users = mongoose.connect 'mongodb://localhost/users'
 
